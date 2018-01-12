@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="pzamgar">
+	<meta name="description" content="Home NYSL">
+	<title>North Youth Soccer League</title>
+
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+	<!-- Allow web app to be run in full-screen mode. -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<!-- Make the app title different than the page title. -->
+	<meta name="apple-mobile-web-app-title" content="NYSL">
+
+	<!-- Set the viewport. -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<!-- Configure the status bar. -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
+
+	<link rel="apple-touch-icon" sizes="640x1096" href="img/app_icon60.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/app_icon76.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/app_icon120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/app_icon152.png">
+
+	<link href="img/launch.png" rel="apple-touch-startup-image">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- Font awsome icon -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Font icon ionic -->
+	<link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Cargar la libreria Mustache -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+
+	<!-- Script user app -->
+	<script src="js/app.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/bootstrap-social.css">
+
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyBWKnza749gpUw_5CP8JJupsICbWOARpjA",
+			authDomain: "nysl-web-775e2.firebaseapp.com",
+			databaseURL: "https://nysl-web-775e2.firebaseio.com",
+			projectId: "nysl-web-775e2",
+			storageBucket: "nysl-web-775e2.appspot.com",
+			messagingSenderId: "738803376417"
+		};
+		firebase.initializeApp(config);
+
+	</script>
+
+	<!-- Import and configure the Firebase SDK -->
+	<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+	<!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+	<script src="/__/firebase/3.9.0/firebase-app.js"></script>
+	<script src="/__/firebase/3.9.0/firebase-auth.js"></script>
+	<script src="/__/firebase/3.9.0/firebase-database.js"></script>
+	<script src="/__/firebase/init.js"></script>
+
+</head>
+
+<body>
+	<script id="listGameInfo" type="text/html">
+		{{#listGame}}
+		<li class="list-group-item gameInfo__box--item gameInfo__box--item{{idGame}}" data-game="{{idGame}}">
+			<span class="gameInfo__box--ehome">
+			<img src="img/equipos/{{idHome}}.png" alt="escudo equipo local" class="gameInfo__box--img">
+			</span>
+			<span>{{timeGame}}</span>
+			<span class="gameInfo__box--evisit">
+			<img src="img/equipos/{{idVisit}}.png" alt="escudo equipo visitante"  class="gameInfo__box--img">
+		</span>
+		</li>
+		{{/listGame}}
+	</script>
+
+	<script id="listFilterGameInfo" type="text/html">
+		{{#listFilter}}
+		<div class="list-group-item gameInfo__box--item gameInfo__box--item{{idGame}} gameInfo__box--itemFilter" data-game="{{idGame}}">
+			<span class="gameInfo__box--fhome">
+			<img src="img/equipos/{{idHome}}.png" alt="escudo equipo local" class="gameInfo__box--imgFilter">
+			</span>
+			<span class="gameInfo__box--vs">vs</span>
+			<span class="gameInfo__box--fvisit">
+			<img src="img/equipos/{{idVisit}}.png" alt="escudo equipo visitante"  class="gameInfo__box--imgFilter">
+			</span>
+			<span class="gameInfo__box--dateGame">
+				<span class="gameInfo__box--day">{{dweek}} {{day}}</span>
+			<span class="gameInfo__box--month">{{month}}</span>
+			</span>
+		</div>
+		{{/listFilter}}
+	</script>
+
+	<script id="listEquipLogo" type="text/html">
+		{{#listTeam}}
+		<span class="box__equipologo">
+			<img src="img/equipos/{{idTeam}}.png" alt="escudo equipo futbol" class="equipoLogo" data-equipo="{{idTeam}}">
+		</span> {{/listTeam}}
+	</script>
+
+	<script id="detailGameLand" type="text/html">
+		<div class="detail__game--header">
+			<h3 class="detail__game--school">{{name}}</h3>
+			<span><img src="img/equipos/{{idHome}}.png" alt="escudo equipo home" class="detail__game--img"></span>
+			<span><img src="img/equipos/{{idVisit}}.png" alt="escudo equipo Visit" class="detail__game--img"></span>
+		</div>
+		<div class="embed-responsive embed-responsive-4by3">
+			<iframe class="embed-responsive-item detail__game--locGoogle" width="400" height="300" style="border:0" allowfullscreen src="{{urlLoc}}" alt="mapa google localizacion campo"></iframe>
+		</div>
+		<div class="box__info-game">
+			<h4>
+				<i><img src="img/location-pin.png" alt="icono localizacion"></i>
+				<a href="#info-game__loc" data-toggle="collapse" class="box__info-game-link">{{titleInfoCont}}</a>
+			</h4>
+			<div class="collapse" id="info-game__loc">
+				<div class="list-group">
+					<p class="list-group-item"><strong>{{facType}}</strong>{{facTypeTxt}}</p>
+					<p class="list-group-item"><strong>{{addInfo}}</strong>{{addInfoTxt}}</p>
+					<p class="list-group-item"><strong>{{dirquest}}</strong>{{dirquestTxt}}</p>
+					<p class="list-group-item"><strong>{{labelPhone}}</strong>{{txtPhone}}</p>
+					<p class="list-group-item">
+						<span class="detail__game--contact">
+							<strong>{{labeMail}}</strong><a href="mailto:{{txtMail}}">{{txtMail}}</a>
+						</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script id="detailGamePort" type="text/html">
+		<h3 class="detail__gamePort--tertary">{{name}}</h3>
+		<div class="box__infogame margin-small">
+			<div class="box__infogame--game">
+				<span>{{nameHome}}</span>
+				<img src="img/equipos/{{idHome}}.png" alt="escudo equipo local" class="box__infogame--img">
+				<img src="img/equipos/{{idVisit}}.png" alt="escudo equipo visitante" class="box__infogame--img ">
+				<span>{{nameVisit}}</span>
+			</div>
+			<div class="box__infogame--time margin-small">
+				<span class="box__infogame--game--date">
+					<span class="box__infogame--game--dweek">{{dweek}}</span>
+				<span class="box__infogame--game--day">{{day}}</span>
+				</span>
+				<span class="box__infogame--game--time">{{time}}</span>
+				<span class="box__infogame--game--loca">
+					<span class="box__infogame--game--address">{{address}}</span>
+				<span class="box__infogame--game--city">{{city}}</span>
+				</span>
+			</div>
+		</div>
+		<div class="box__infomap">
+			<h4>
+				<i><img src="img/location-pin.png" alt="icono localizacion"></i>
+				<a href="#detail__map" data-toggle="collapse">Map location field</a>
+			</h4>
+			<div class="collapse" id="detail__map">
+				<div class="embed-responsive embed-responsive-4by3">
+					<iframe class="embed-responsive-item detail__game--locGoogle" width="400" height="300" style="border:0" allowfullscreen src="{{urlLoc}}" alt="mapa google localizacion campo"></iframe>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="fixed-nav-bar">
+				<div class="header__top">
+					<div class="logo__box">
+						<a title="home logo" href="#page-home"><img src="img/nysl_logo.png" alt="logo page NYSL" class="logo__box-img"></a>
+					</div>
+					<div class="head__box">
+						<h1 class="head__box-h1">North Youth</h1>
+					</div>
+				</div>
+				<div class="header__bottom">
+					<div class="nav_back">
+						<span class="nav_back__btn">&#9776;</span>
+					</div>
+					<div class="nav_menu"><span>Menu</span></div>
+					<nav class="header__nav">
+						<a href="#void" class="header__nav--btnclose">&times;</a>
+						<a title="home page" href="#page-home" class="header__nav--item">							
+							<i class = "ion-ios-home"></i>Home
+						</a>
+						<a title="events page" href="#page-events" class="header__nav--item">
+							<i class = "ion-clock"></i>Events
+						</a>
+						<a title="about page" href="#page-about" class="header__nav--item">
+							<i class = "ion-aperture"></i>About
+						</a>
+						<a title="contact page" href="#page-contact" class="header__nav--item">
+							<i class = "ion-ios-information-outline"></i>Contact
+						</a>
+						<a title="info page" href="#page-info" class="header__nav--item">
+							<i class = "ion-ios-football"></i>Info
+						</a>
+						<a title="rules page" href="#page-rules" class="header__nav--item">
+							<i class = "ion-clipboard"></i>Rules
+						</a>
+					</nav>
+					<div class="nav__login">
+						<input id="structGameInfo" type="hidden" />
+						<button class="btn nav__edit-btn" id="edit-button">Edit comment</button>
+						<button class="btn nav__logout-btn" id="sign-out-button">Log out</button>
+						<button class="btn nav__login-btn" data-toggle="modal" data-target="#myModal">Log in</button>
+					</div>
+				</div>
+				<!-- <div><a title="login page2" href="login.html"><span></span>Login2</a></div>-->
+
+				<!-- Modal bbdd desconexion -->
+				<div class="modal fade" id="modalDescon">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header modal-header-login">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4>Desconexion de red</h4>
+							</div>
+							<div class="modal-body">
+								Ha habido un problema de connexion.
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Sign in -->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content login sing up -->
+						<div class="modal-content">
+							<div class="modal-header modal-header-login">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+							</div>
+							<div class="modal-body">
+
+								<div>
+									<a class="btn btn-block btn-social btn-google" id="sign-in-button">
+										<span class="fa fa-google"></span> Sign in with Google
+										<span class="signGoogleError">&nbsp;</span>
+									</a>
+								</div>
+
+								<div class="omb_loginOr">
+									<hr class="omb_hrOr">
+									<span class="omb_spanOr">or</span>
+								</div>
+
+								<form role="form" action="#" id="nysl-sign-in">
+									<div class="form-group">
+										<label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+										<input type="text" class="form-control" id="usrname" placeholder="Enter email">
+										<span class="errorUsrSignIn">&nbsp;</span>
+									</div>
+									<div class="form-group">
+										<label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+										<input type="password" class="form-control" id="psw" placeholder="Enter password">
+										<span class="errorPswSignIn">&nbsp;</span>
+									</div>
+									<div class="checkbox">
+										<label><input type="checkbox" value="" checked>Remember me</label>
+									</div>
+									<button type="submit" class="btn btn-default btn-success btn-block">
+										<span class="glyphicon glyphicon-off"></span> Login</button>
+								</form>
+								<p class="errorSignIn"></p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel</button>
+								<p>Not a member? <a href="#" id="modal-signUp">Sign Up</a></p>
+								<p>Forgot <a href="#">Password?</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Sign up mail/password -->
+				<div class="modal fade" id="modalSignUp" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header modal-header-signup">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4><span class="glyphicon glyphicon-lock"></span> Sign Up</h4>
+							</div>
+							<div class="modal-body">
+
+								<form role="form" action="#" id="nysl-sign-up">
+									<div class="form-group">
+										<label for="usrSignUp"><span class="glyphicon glyphicon-user"></span> Username</label>
+										<input type="text" class="form-control" id="usrSignUp" placeholder="Enter email">
+										<span class="errorUsrSignUp">&nbsp;</span>
+									</div>
+									<div class="form-group">
+										<label for="pswSignUp"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+										<input type="password" class="form-control" id="pswSignUp" placeholder="Enter password">
+										<span class="errorPswSignUp">&nbsp;</span>
+									</div>
+									<button type="submit" class="btn btn-default btn-primary btn-block">
+										<span class="glyphicon glyphicon-off"></span> Sign Up</button>
+								</form>
+								<p class="errorSignUp"></p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+								<span class="glyphicon glyphicon-remove"></span> Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="pages">
+
+			<!-- Home page -->
+			<div id="page-home" class="current" data-source="home">
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">Home NYSL</h2>
+				</div>
+				<div class="row margin-small">
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="image__box">
+							<div class="image__box-1"></div>
+							<div class="image__heading">
+								<a href="#page-info" class="image__heading-link image__heading-link-1">Game Info</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="image__box">
+							<div class="image__box-2"></div>
+							<div class="image__heading">
+								<a href="#page-contact" class="image__heading-link image__heading-link-2">Contact</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="image__box">
+							<div class="image__box-3"></div>
+							<div class="image__heading">
+								<a href="#page-events" class="image__heading-link image__heading-link-3">Events</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Events page -->
+			<div id="page-events" data-source="events">
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">Upcoming Events</h2>
+				</div>
+
+				<div class="row margin-big">
+
+					<div class="col-md-10 col-md-offset-1 col-sm-8">
+						<div class="panel panel-default panel__nysl">
+							<div class="panel-heading panel__nysl-heading">
+								<h3 class="panel-title heading--tertary-2">August 4</h3>
+							</div>
+							<div class="panel-body">NYSL Fundraiser.</div>
+						</div>
+						<div class="panel panel-default panel__nysl">
+							<div class="panel-heading panel__nysl-heading">
+								<h3 class="panel-title heading--tertary-2">August 16</h3>
+							</div>
+							<div class="panel-body">Season Kick-off: Meet the Teams.</div>
+						</div>
+						<div class="panel panel-default panel__nysl">
+							<div class="panel-heading panel__nysl-heading">
+								<h3 class="panel-title heading--tertary-2">Setember 1</h3>
+							</div>
+							<div class="panel-body">First Game of the Season (Check Game Schedule for details).</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- About page -->
+			<div id="page-about" data-source="about">
+
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">About NYSL</h2>
+				</div>
+
+				<div class="row margin-big content">
+					<div class="panel-group col-md-10 col-md-offset-1" id="accordionA">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordionA" href="#collapseOneA">Mission</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse in" id="collapseOneA">
+								<div class="panel-body">
+									<p>To supoort young athletes living in Chicago's northside neigborhoods, who have an interest in learning and playing soccer, with opportunities to learn and practice skills related to the game of soccer, specifically those skills around team cooperation and good sportsmanship.</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordionA" href="#collapseTwoA">Vision</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseTwoA">
+								<div class="panel-body">
+									<p>The Northside Youth League aspires to develop strong, well-rounded, and mindful athletes through the building of character, self-discipline, and leadership.</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordionA" href="#collapseThreeA">General Information</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseThreeA">
+								<div class="panel-body">
+									<p>The Nortside Youth Soccer League was established in 1996 to provide athletes residing in Chicago's northside neighborhoods an environment in wich to learn and play soccer. To be a member of NYSL, you must be between the ages of 4 - 12 and reside in a Chicago northside neighborhood. NYSL is ran by a small full-time staff, and relies on the generous volunteer time of parents and previous league members.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Contact page -->
+			<div id="page-contact" data-source="contact">
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">Contact</h2>
+				</div>
+
+				<div class="row margin-big content">
+					<div class="contact__box">
+						<p>Please email us at <a title="mail contact web" href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a>.</p>
+						<p>We will reply to your email as soon as we can.
+							<a title="icono mail contact web" href="mailto:nysl@chisoccer.org"><img src="img/mail-envelope-open.png" alt="icono mail contacto" lang="es"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- Info page -->
+			<div id="page-info" data-source="info">
+				<div class="row fixed-padding">
+					<div>
+						<h2 class="heading--secondary">NYSL Game Information</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="listEquipGame"></div>
+				</div>
+				<div class="row margin-small">
+					<div class="col-xs-6 col-sm-6 col-md-4 gameInfo__box"></div>
+					<div class="col-xs-6 col-sm-6 col-md-8 gameInfo__detail"></div>
+				</div>
+			</div>
+			<!-- Detail Info page -->
+			<div id="page-detailinfo" data-source="detailinfo">
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">NYSL Detail Game Information</h2>
+				</div>
+				<div class="row margin-medium">
+					<div class="col-md-10 col-md-offset-1 detail__game"></div>
+				</div>
+				<div class="row margin-medium">
+					<div class="col-md-10 col-md-offset-1">
+						<!-- Show a list of recent comments -->
+						<section id="recent-comments-list">
+							<h3 class="detail__gamePort--tertary">Comments Chats Game</h3>
+							<div class="comments-container">
+								<div>
+									Enter chat comments for this game.
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- Rules page -->
+			<div id="page-rules" data-source="rules">
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">Rules of Play &amp; Policies</h2>
+				</div>
+
+				<div class="row margin-big">
+
+					<div class="col-md-10 col-md-offset-1">
+						<p class="rules__intro">
+							<abbr title="Fédération Internationale de Football Association" lang="en">FIFA</abbr> rules shall govern <abbr title="Northside Youth Soccer League" lang="en">NYSL</abbr> play except as modified herein.
+						</p>
+					</div>
+
+					<div class="panel-group col-md-10 col-md-offset-1" id="accordion">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">SPORTSMANSHIP</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseOne">
+								<div class="panel-body">
+									<p> The common interest that members of the Association share is to inspire youth to practice the ideals of sportsmanship and fair play. Any player, coach, team, parent, spectator, administrator or referee whose behavior detracts from this purpose is subject to disciplinary action regardless of technical soccer background, expertise, accomplishments or standing.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><abbr title="Fédération Internationale de Football Association" lang="en">FIFA</abbr> FIELD REGULATIONS</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseTwo">
+								<div class="panel-body">
+									<ol class="list-ord-numbers">
+										<li class="list-separate">
+											<p><strong>DIMENSIONS.</strong><abbr title="Fédération Internationale de Football Association" lang="en"> FIFA</abbr> Law 1 provides for flexible external field dimensions within a given maximum and minimum width and length. These dimensions should be adhered to for all fields used by teams under 12 and older.
+											</p>
+										</li>
+										<li class="list-separate">
+											<p><strong>COMPETITION FIELDS.</strong> Fields used within the competition program must be a minimum of 100 x 60 yards. Leagues, districts or associations participating in the state competition program that are unable to provide a field that meets these minimum requirements must advise the State Competition Board which will assign its Fields Committee to inspect the field and recommend to the Board whether or not a waiver of the minimum dimensions should be granted. Teams from leagues, districts or associations that are unable to provide an acceptable field may be required to play all their games away.
+											</p>
+										</li>
+										<li class="list-separate"> <strong>FIELDS USED BY YOUNG AGE GROUPS.</strong>
+											<ol class="list-ord-letters">
+												<li>U-6 play on a field approximately 20 X 40 yards with no penalty areas. Fields for older age groups should be progressively larger.</li>
+												<li>U-8 plays on a field 40-50 yards in length and 20-30 yards width.</li>
+												<li>U-10 play on a field 70-80 yards in length and 40-50 yards in width.</li>
+												<li>In addition, fields used by young age groups may have their internal dimensions and size of goal similarly modified.</li>
+											</ol>
+										</li>
+										<li class="list-separate"> <strong>TEAM BENCH AREAS</strong>
+											<ol class="list-ord-letters">
+												<li>Recreation & District Programs
+													<ul class="list-square list-square-secundary">
+														<li> The decision for team/spectator placement on the field will be made by the governing body of that team. A team's bench area shall consist of that area at least one (1) yard away from the touchline and extending to twenty yards (20) both ways from the halfway line. In the event that field 2 conditions require team benches to be on the same side of the field, a team's bench area shall consist of that area two (2) yards away from the touchline and extending twenty yards one (1) way from the halfway line.
+														</li>
+														<li> The home team has first choice as to where it wishes to locate its bench area. Coaches and substitutes are required to remain within their bench area during the game. Parents and spectators should occupy the same side of the field as the team they are supporting.
+														</li>
+													</ul>
+												</li>
+												<li>State Competition League Only
+													<ul class="list-square">
+														<li> Except where it is determined by the referee to be impractical, team bench areas shall be along the same touchline. Each team bench area shall be located two yards outside the touchline, beginning not closer than five yardsParents and spectators must occupy the sideline opposite the team bench areas. Supporters of a team must assemble on the side of the midfield facing the team bench area of that team. There shall be a buffer zone extending ten yards on each side of the midfield that may not be occupied by parents or spectators. Match officials shall be empowered to enforce these provisions and may suspend or terminate games in the event that any team, coach, parent, or spectator declines to abide by requests from match officials to comply with these standards. from midfield and extending not further than twenty yards from midfield. The home team shall have the right to choose the location of its bench area. Coaches and substitutes must remain within their team's bench area during the game.
+														</li>
+														<li> Parents and spectators must occupy the sideline opposite the team bench areas. Supporters of a team must assemble on the side of the midfield facing the team bench area of that team. There shall be a buffer zone extending ten yards on each side of the midfield that may not be occupied by parents or spectators. Match officials shall be empowered to enforce these provisions and may suspend or terminate games in the event that any team, coach, parent, or spectator declines to abide by requests from match officials to comply with these standards.
+														</li>
+													</ul>
+												</li>
+											</ol>
+										</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">EQUIPMENT</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseThree">
+								<div class="panel-body">
+									<p>We will abide by and accept equipment standards as defined by <abbr title="Fédération Internationale de Football Association" lang="en">FIFA</abbr>,<abbr title="United States Soccer Federation" lang="en">USSF</abbr> and <abbr title="United States Youth Soccer Association" lang="en">USYSA</abbr>.</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">NUMBER OF PLAYERS</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseFour">
+								<div class="panel-body">
+									<p><strong>TEAM SIZE.</strong>Except as noted below, team rosters shall consist of not less than eleven nor more than eighteen players. A team must have at least seven (7) players present and able to play before referees are permitted to start a sanctioned game. No more than eleven (11) players per team may be on the field at any one time during the game.
+									</p>
+									<p><strong>SIZE OF AGE GROUP TEAMS.</strong>In order to give player's maximum opportunity to develop in the game of soccer, U-6 through U-1O play modified rules and size of roster as stated in United States Youth Soccer Association (USYSA) rules. It is strongly recommended that U-6 and U-8 play 4 v 4. <abbr title="United States Youth Soccer Association" lang="en">USYSA</abbr > shall not sanction games involving teams under 10 or younger unless such games are conducted with </p> 
+									<p>Recreational/Developmental players at other ages or where numbers in the playing area are low are strongly encouraged to play small-sided games on reduced field size. </p> 
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">SUBSTITUTIONS</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseFive">
+								<div class="panel-body">
+									Teams may make an unlimited number of substitutions at the times indicated below. A player who has been replaced may re-enter the game as a substitute at a later time.
+									<ol class="list-ord-numbers">
+										<li>Prior to a throw-in your favor.</li>
+										<li>Prior to a goalkick by either team.</li>
+										<li>After a goal by either team.</li>
+										<li>After an injury, by either team, when the referee stops play.</li>
+										<li>At half time.</li>
+										<li>When a player has been "cautioned", only the player receiving "caution" may be substituted.</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">CONFISCATED PLAYER PASSES</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseSix">
+								<div class="panel-body">
+									<p>Passes of any individual(s) ejected from any match shall be retained after the match by the referee. The pass of any individual who has received a third caution (yellow card) during a playing year shall be confiscated by the referee at the conclusion of the match in which the third caution was received. That player will be suspended from playing in the next game in which the offending participant would otherwise be eligible to participate. This process will continue so that for every third yellow card received during a playing year, the player will be suspended from playing in the next game (after the receipt of a third yellow card) for which the offending participate would otherwise be eligible to participate. The referee shall deliver all confiscated passes to the <abbr title="United States Youth Soccer Association" lang="en">USYSA</abbr > State Office within forty-eight (48) hours of the conclusion of the match. </p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">ALL-PLAY</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseSeven">
+								<div class="panel-body">
+									All-play means that every recreation player on every team shall play at least fifty percent of each game. Coaches in the competition program are encouraged to play their players 50% of each game.
+									<ul class="list-circle">
+										<li>A Coach shall be permitted to not play a player 50% of each game under special circumstances, e.g., unexcused absences from practice and/or games, ungentlemanly conduct at practice and/or games, and injuries.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">PLAYERS' EQUIPMENT</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseEight">
+								<div class="panel-body">
+									<p>Where the uniform colors of both teams are so similar that the referee orders a change, the designated home team must change to colors distinct from those of the opponent. </p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseNine">MIXED TEAMS</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseNine">
+								<div class="panel-body">
+									<p><strong>GIRLS PLAYING ON BOYS' TEAMS.</strong>Girls are eligible to play on boys' 4 teams with parent/guardian permission.</p>
+									<p><strong>TYPES OF TEAMS.</strong>Teams with females only are Girls Teams. All others are Boys Teams.</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen">COACHING FROM THE SIDELINES</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseTen">
+								<div class="panel-body">
+									Coaching from the sidelines, i.e., giving direction to one's own team on points of strategy and position, is permitted provided that:
+									<ol class="list-ord-numbers">
+										<li>No mechanical, electrical or other devices are used to amplify the voice. </li>
+										<li>The tone of voice is informative and not a harangue.</li>
+										<li>The coaching takes place within the team's bench area.</li>
+										<li>No coach, substitute, player or spectator is to make derogatory remarks or gestures to the referees, linesmen, players, substitutes or spectators.</li>
+										<li>No coach, player, substitute or spectator is to use profanity or incite, in any manner, disruptive behavior of any kind.</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">GAME TERMINATION</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseEleven">
+								<div class="panel-body">
+									<p>
+										Any game terminated after 15 minutes into the second half by the referee by reason of the elements, or by reason of grave disorder on the part of the coaches, players or spectators of a team that is losing at the point that the game is terminated, shall stand as a completed game. If a team is ahead and the game is called because of their actions they will lose the game 1-0.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve">CONDITIONS OF REPLAY OF GAMES</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseTwelve">
+								<div class="panel-body">
+									Any game which is required to be replayed as a result of any protest or appeal, shall be subject to the following conditions:
+									<ol class="list-ord-numbers">
+										<li>The game shall be replayed on the same field, as was the suspended or protested game, unless otherwise agreed by the coaches. </li>
+										<li>Impartial referees shall be assigned to the new game.</li>
+										<li>The PROTEST AND APPEALS COMMITTEE shall have the power to impose such additional conditions on the replay of the game, as it deems appropriate under the circumstances.</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThirty">REFEREE RESPONSIBLITIES</a>
+								</h3>
+							</div>
+							<div class="panel-collapse collapse" id="collapseThirty">
+								<div class="panel-body">
+									<p>The referee shall verify the identity of the players and coaches with his/her player pass. He shall collect the passes of those players and coaches who are to participate in the game. The referee must allow no player into the game for whom he/she has no pass.</p>
+									<p>Upon completion of the game, the referee shall send his/her report to the <abbr title="United States Youth Soccer Association" lang="en">USYSA</abbr > offices within four (4) days, holidays excluded. If a coach or a player is ejected, the referee report form is required within forty-eight (48) hours along with the player/coach pass.</p>
+									<p>A referee report form must be filed for every game played.</p>
+									<p>Each team must determine whether or not referees are registered prior to the start of each game. Upon request, referees officiating at any game must willingly and without bias, show documentation regarding their certification level and registration standing with the <abbr title="United States Soccer Federation" lang="en">USSF</abbr > to coach, assistant coach, or team captain of teams participating in that game. Prior to the game a coach may decide to postpone the game if the referees do not produce the requested documentation. The game is to be replayed at a later date.</p> 
+									<p>Referees not complying with this section will be referred to the Disciplinary Committee. </p> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>		
+			<!-- Add comment Chat page -->
+			<div id="page-comment" data-source="comment">	
+				<div class="row fixed-padding">
+					<h2 class="heading--secondary">NYSL Comment Game Info</h2>
+				</div>
+				<div class="row margin-big content">
+					<div class="col-md-6  col-md-offset-3">
+						<div class="panel panel-default panel-info">
+							<div class="panel-heading">
+								<h3 class="panel-title heading--comment">New Comment</h3>
+							</div>
+							<div class="panel-body">			
+								<form role="form" action="#" id="message-form">
+									<div class="form-group">
+										<textarea class="form-control" id="new-post-message" placeholder="Post message..."></textarea>
+									</div>
+									<button type="submit" class="btn btn-default btn-primary btn-block">
+										<span class="glyphicon glyphicon-pencil"></span> Add comment</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<footer class="footer">
+				<div class="footer__box">
+					<span class="footer__box--copy">&copy; 2017 North Youth Soccer League</span>
+				</div>
+				<div class="footer__logo">
+					<span>North <img src="img/nysl_logo.png" alt="imagen logo NYSL" class="footer__logo-img"> Youth</span>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+
+</html>
