@@ -1,0 +1,871 @@
+
+/*Reset browsers*/
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+html {
+	font-size: 62.5%;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+	font-weight: 400;
+	font-size: 1.6rem;
+	background-color: #EFEFEF;
+	height: 100%;
+	width: 100%;
+	background-image: linear-gradient(to right bottom, #ccc, #f4f2f2);
+}
+
+/********************************************************************/
+
+a:active,
+a:link {
+	color: #28b485;
+	text-decoration: none;
+	transition: all 0.5s ease;
+}
+
+a:hover {
+	color: #7ed56f;
+}
+
+/********************************************************************/
+
+.fixed-padding {
+	padding-top: 7.6rem;
+}
+
+.margin-small {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.margin-medium {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+.margin-big {
+	margin-top: 4rem;
+	margin-bottom: 4rem;
+}
+
+/********************************************************************/
+
+.heading--secondary {
+	margin: 0;
+	font-size: 2rem;
+	font-weight: 700;
+	text-align: center;
+	background-color: #373737;
+	background-color: #373700;
+	text-transform: uppercase;
+	padding: 1rem 0;
+	color: white;
+}
+
+.heading--tertary {
+	font-size: 1.8rem;
+	font-weight: 400;
+	text-align: center;
+}
+
+.heading--tertary-2 {
+	font-size: 1.8rem;
+	font-weight: 500;
+	text-align: center;
+	padding: 2rem 0;
+	color: white;
+	letter-spacing: .3rem;
+}
+
+.heading--comment {
+	font-size: 1.8rem;
+	font-weight: 500;
+	text-align: center;
+	padding: 1.5rem 0;
+	color: #777;
+	letter-spacing: .3rem;
+}
+
+/********************************************************************/
+
+.header__top {
+	background-color: #fff;
+}
+
+.header__bottom {
+	background-color: #7ed56f;
+	background-image: linear-gradient(to right bottom, #7ed56f, #28b485);
+	border-bottom: 1px solid white;
+	position: relative;
+}
+
+.fixed-nav-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	width: 100%;
+}
+
+.nav_back {
+	width: 3.5rem;
+	height: 3.5rem;
+	display: inline-block;
+	border-right: 1px solid white;
+	vertical-align: top;
+}
+
+.nav_back__btn {
+	font-size: 2.5rem;
+	cursor: pointer;
+	text-align: center;
+	display: block;
+	color: white;
+}
+
+.nav_menu {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.nav_menu span {
+	color: white;
+	font-weight: 400;
+}
+
+.logo__box {
+	width: 4rem;
+	height: 4rem;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.logo__box-img {
+	width: 3rem;
+	height: 3rem;
+	text-align: center;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.head__box {
+	width: 20rem;
+	height: 4rem;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.head__box-h1 {
+	margin: 0;
+	font-size: 2rem;
+	font-weight: 700;
+	letter-spacing: .5rem;
+	display: inline-block;
+	margin-top: 7px;
+	margin-left: 5px;
+	color: #7ed56f;
+}
+
+/********************************************************************/
+
+.header__nav {
+	height: 100vh;
+	position: absolute;
+	left: -20rem;
+	z-index: 1;
+	background-color: #111;
+	background-color: #7ed56f;
+	background-color: white;
+	padding-top: 60px;
+	width: 20rem;
+}
+
+.header__nav a {
+	text-decoration: none;
+	font-size: 2rem;
+	color: #777;
+	color: #28b485;
+	color: orange;
+	display: block;
+	transition: 0.3s;
+	letter-spacing: .5rem;
+	padding: 0rem 1rem;
+}
+
+
+.header__nav a:hover {
+	color: #f1f1f1;
+}
+
+.header__nav--btnclose {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-size: 36px !important;
+	width: 3rem;
+	height: 3rem;
+	text-align: center;
+}
+
+.header__nav--times {
+	display: inline-block;
+	font-size: 2.5rem;
+	vertical-align: top;
+}
+
+
+.nav__login {
+	display: inline-block;
+	position: absolute;
+	top: 3px;
+	right: 1rem;
+}
+
+.nav__login-btn,
+.nav__login-btn:link,
+.nav__login-btn:active {
+	color: white !important;
+	background-color: #373700;
+	padding: 4px 12px;
+}
+
+.nav__logout-btn,
+.nav__logout-btn:link,
+.nav__logout-btn:active {
+	color: white !important;
+	background-color: #ccc;
+	padding: 4px 12px;
+}
+
+.nav__edit-btn,
+.nav__edit-btn:link,
+.nav__edit-btn:active {
+	color: white !important;
+	background-color: #ff7730;
+	padding: 4px 12px;
+}
+
+.nav__edit-btn:hover,
+.nav__logout-btn:hover,
+.nav__login-btn:hover {
+	color: white;
+}
+
+.nav__logout-btn,
+.nav__edit-btn {
+	display: none;
+}
+
+.signGoogleError,
+.errorusrSignIn,
+.errorpswSignIn {
+	display: none;
+}
+
+.omb_loginOr {
+	position: relative;
+	font-size: 2rem;
+	color: #aaa;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.omb_hrOr {
+	background-color: #cdcdcd;
+	height: 1px;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.omb_spanOr {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -0.6em;
+	margin-left: -1.5em;
+	background-color: white;
+	width: 3em;
+	text-align: center;
+}
+
+.modal-header-login {
+	text-align: center;
+	background-image: linear-gradient(to right bottom, #7ed56f, #28b485);
+}
+
+.modal-header-signup {
+	text-align: center;
+	background-image: linear-gradient(to right bottom, #2998ff, #5643fa);
+}
+
+/**************************************************************/
+
+.panel-heading {
+	padding: 0;
+	border: 0;
+}
+
+.panel-title > a,
+.panel-title > a:active {
+	display: block;
+	padding: 1rem;
+	color: #555;
+	font-size: 1.4rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	word-spacing: 3px;
+	text-decoration: none;
+}
+
+.panel-heading a:before {
+	font-family: 'Glyphicons Halflings';
+	content: "\e114";
+	float: right;
+	transition: all 0.5s;
+}
+
+.panel-heading.active a:before {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.panel__nysl {
+	box-shadow: .2rem .2rem .9rem rgba(0, 0, 0, 0.2);
+}
+
+.panel__nysl-heading {
+	background-image: linear-gradient(to right bottom, #7ed56f, #28b485);
+}
+
+/********************************************************************/
+
+.image__box {
+	height: 30rem;
+	background-color: #f1f1f1;
+	margin: 2rem 0;
+	border-radius: 3px;
+	overflow: hidden;
+	box-shadow: .2rem .2rem .9rem rgba(0, 0, 0, 0.2);
+}
+
+.image__box-1 {
+	background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/david-straight-37575_mobile.jpg);
+	background-size: cover;
+	height: 23rem;
+	background-blend-mode: overlay;
+	clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.image__box-2 {
+	background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/peter-glaser-202841_mobile.jpg);
+	background-size: cover;
+	height: 23rem;
+	background-blend-mode: overlay;
+	clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.image__box-3 {
+	background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/robert-collins-333411_mobile.jpg);
+	background-size: cover;
+	height: 23rem;
+	background-blend-mode: overlay;
+	clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.image__heading {
+	text-align: center;
+	margin-top: 1rem;
+}
+
+.image__heading-link {
+	display: inline-block;
+	text-align: center;
+	padding: 1rem 5rem;
+}
+
+.image__heading-link-1 {
+	border: 2px solid #28b485;
+	color: #28b485;
+}
+
+.image__heading-link-1:hover {
+	background-color: #28b485;
+	color: white !important;
+}
+
+.image__heading-link-2 {
+	border: 2px solid #ff7730;
+	color: #ff7730 !important;
+}
+
+.image__heading-link-2:hover {
+	background-color: #ff7730;
+	color: white !important;
+}
+
+.image__heading-link-3 {
+	border: 2px solid #5643fa;
+	color: #5643fa !important;
+}
+
+.image__heading-link-3:hover {
+	background-color: #5643fa;
+	color: white !important;
+}
+
+/********************************************************************/
+
+.content {
+	height: 60vh;
+}
+
+/********************************************************************/
+
+.contact__box {
+	padding: 2rem;
+	text-align: center;
+}
+
+/********************************************************************/
+
+.rules__intro {
+	text-align: center;
+}
+
+.list-separate {
+	padding-bottom: 20px;
+	font-weight: bold;
+}
+
+.list-square {
+	list-style: square;
+	padding-bottom: 20px;
+	padding-right: 20px;
+	font-weight: normal;
+}
+
+.list-ord-numbers {
+	list-style: decimal;
+	padding-right: 2rem;
+	padding-left: 2rem;
+}
+
+.list-ord-letters {
+	list-style: lower-alpha;
+	font-weight: normal;
+}
+
+.list-circle {
+	list-style: circle;
+	padding-left: 2rem;
+}
+
+.list-separate p {
+	font-weight: normal;
+}
+
+/********************************************************************/
+
+/* Dispositivos TABLET, LAPTOP y phones LANDSCAPE con resolucion superiror */
+@media (min-width: 769px) {
+
+	.gameInfo__detail {
+		display: block;
+	}
+}
+
+/* Dispositivos phone y verticales columnas xs-6 ancho 100% y no display info detalle */
+@media (max-width: 768px) and (orientation: portrait) {
+
+	
+	.col-xs-6 {
+		width: 100%;
+	}
+
+	.gameInfo__detail {
+		display: none;
+	}
+}
+
+.detail__game--header {
+	background-color: white;
+	margin: 1rem 0;
+	padding: 2.5rem;
+}
+
+.detail__game--school {
+	margin: 0;
+	padding-right: .5rem;
+	font-size: 1.8rem;
+	font-weight: 400;
+	color: grey;
+	display: inline-block;
+}
+
+.detail__game--img {
+	width: 3.5rem;
+	height: 3.5rem;
+}
+
+@media screen and (min-width: 769px) {
+
+	.detail__game--school {
+		font-size: 2.4rem;
+	}
+}
+
+@media screen and (max-width: 650px) and (orientation: landscape) {
+
+	.detail__game--school {
+		font-size: 1.4rem;
+	}
+
+	.detail__game--img {
+		width: 2rem;
+		height: 2rem;
+	}
+}
+
+.box__info-game {
+	margin-top: 3rem;
+}
+
+.box__info-game-link {
+	color: darkseagreen;
+	border-bottom: 2px solid white;
+}
+
+#recent-posts-list {
+	display: none;
+}
+
+.gameInfo__box--img {
+	width: 5rem;
+	height: 5rem;
+}
+
+.gameInfo__box--item {
+	text-align: center;
+	cursor: pointer;
+}
+
+.gameInfo__box--itemFilter {
+	text-align: left;
+}
+
+.gameInfo__box--imgFilter {
+	width: 4rem;
+	height: 4rem;
+}
+
+.gameInfo__box--vs {
+	color: orange;
+	font-size: 1.2rem;
+}
+
+.gameInfo__box--dateGame {
+	padding: 0 2rem;
+	text-align: center;
+	font-size: 1.4rem;
+}
+
+.gameInfo__box--month {
+	font-weight: 700;
+}
+
+
+.gameInfo__box--ehome,
+.gameInfo__box--evisit {
+	padding: 5px 3rem;
+}
+
+@media screen and (min-width: 321px) {
+
+	.gameInfo__box--dateGame {
+		font-size: 1.6rem;
+	}
+
+}
+
+@media screen and (min-width: 769px) {
+
+	.gameInfo__box--dateGame {
+		font-size: 2rem;
+	}
+}
+
+@media screen and (max-width: 650px) and (orientation: landscape) {
+
+	.gameInfo__box--dateGame {
+		font-size: 1.6rem;
+		font-weight: 500;
+	}
+
+	.gameInfo__box--month {
+		display: none;
+	}
+
+
+	.gameInfo__box--ehome,
+	.gameInfo__box--evisit {
+		padding: 0;
+	}
+
+	.detail__game--header {
+		background-color: white;
+		margin: 1rem 0;
+		padding: 1rem;
+	}
+}
+
+.gameInfo__box--active {
+	background-color: #ffb900;
+	background-image: linear-gradient(to right bottom, #f7f7f7, #cc7), url(../img/peter-glaser-202841_mobile.jpg);
+}
+
+.gameInfo__box h4 {
+	text-align: left;
+	border-bottom: 1px solid white;
+	background-color: #7ed56f;
+	background-image: linear-gradient(to right bottom, #7ed56f, #28b485);
+	border-radius: 2px;
+
+}
+
+.gameInfo__box a {
+	color: black;
+	display: inline-block;
+	width: 100%;
+	color: white;
+	padding: 1rem 1rem;
+}
+
+/********************************************************************/
+
+.detail__gamePort--tertary {
+	margin: 0;
+	padding-bottom: 1rem;
+	font-size: 1.8rem;
+	font-weight: 700;
+	text-align: center;
+	border-bottom: 2px solid white;
+	color: #28b485;
+	text-transform: uppercase;
+}
+
+.box__infogame--game span {
+	font-size: 1.4rem;
+	color: orange;
+	font-weight: 700;
+}
+
+.box__infogame--img {
+	width: 5rem;
+	height: 5rem;
+}
+
+.box__infogame--game {
+	padding: 1rem 0;
+	text-align: center;
+}
+
+.box__infogame--game--date {
+	font-size: 2rem;
+	display: inline-block;
+}
+
+.box__infogame--time {
+	position: relative;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}
+
+.box__infogame--game--dweek,
+.box__infogame--game--day {
+	display: block;
+}
+
+.box__infogame--game--dweek {
+	font-size: 1.5rem;
+}
+
+.box__infogame--game--day {
+	font-size: 2.5rem;
+	text-align: center;
+}
+
+.box__infogame--game--time {
+	font-size: 2.5rem;
+	display: inline-block;
+	padding: 0 1rem;
+	position: absolute;
+	right: 50%;
+	top: .8rem;
+}
+
+.box__infogame--game--loca {
+	position: absolute;
+	display: inline-block;
+	right: 0;
+	top: .8rem;
+}
+
+.box__infogame--game--address,
+.box__infogame--game--city {
+	display: block;
+}
+
+.box__infogame--game--address {
+	font-size: 1.5rem;
+}
+
+.box__infogame--game--city {
+	font-size: 1rem;
+}
+
+
+.box__infomap {
+	text-align: center;
+}
+
+/********************************************************************/
+
+#recent-comments-list {
+	display: none;
+}
+
+.comments-container {
+	background-color: white;
+	border-radius: .2rem;
+}
+
+.comment {
+	margin: 1rem 0;
+
+}
+
+.comment__header {
+	padding: 1rem;
+	padding-bottom: 0;
+}
+
+.comment__avatar {
+	width: 3.2rem;
+	height: 3.2rem;
+	display: inline-block;
+	background-size: 3.2rem 3.2rem;
+	border-radius: 3.2rem;
+	border: 1px white solid;
+	margin-right: 1rem;
+	background-image: url('../img/silhouette.jpg');
+}
+
+.comment__username {
+	display: inline-block;
+	line-height: 3.8rem;
+	vertical-align: top;
+	width: calc(100% - 46px);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	font-size: 1.2rem;
+}
+
+.comment__text {
+	padding: .5rem 1rem;
+}
+
+.comment__text--message {
+	border-radius: .5rem;
+	padding: 2rem .8rem;
+	background: lightskyblue;
+	font-size: 1.4rem;
+}
+
+/********************************************************************/
+
+.footer {
+
+	width: 100%;
+	height: 8rem;
+	background-color: #373737;
+	text-align: center;
+	font-size: 1.2rem;
+}
+
+.footer__box {
+	color: #D3D3D3;
+	padding-top: 1rem;
+	height: 4rem;
+}
+
+
+.footer__logo {
+	color: #D3D3D3;
+	padding-bottom: 5px;
+}
+
+.footer__logo-img {
+	width: 2rem;
+	height: 2rem;
+}
+
+/********************************************************************/
+/* TODO: Redireccionar paginas SPA */
+#pages > div {
+	display: none;
+}
+
+#pages > div.current {
+	display: block;
+}
+
+/********************************************************************/
+
+.gameInfo__filter {
+	display: none;
+}
+
+.listEquipGame {
+	text-align: center;
+	padding: 1rem;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}
+
+.box__equipologo {
+	display: inline-block;
+	width: 4rem;
+	height: 4rem;
+	background-color: white;
+	border-radius: 50%;
+	border: 1px solid #ffb900;
+	position: relative;
+	cursor: pointer;
+	margin-right: 1rem;
+
+}
+
+.box__equipologo--current {
+	background-color: #ffb950;
+}
+
+.equipoLogo {
+	width: 3rem;
+	height: 3rem;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+}

@@ -23,6 +23,7 @@
 	<!-- Configure the status bar. -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-transparent">
 
+	<!-- Image icon device Iphone -->
 	<link rel="apple-touch-icon" sizes="640x1096" href="img/app_icon60.png">
 	<link rel="apple-touch-icon" sizes="76x76" href="img/app_icon76.png">
 	<link rel="apple-touch-icon" sizes="120x120" href="img/app_icon120.png">
@@ -53,35 +54,41 @@
 	<script src="js/app.js"></script>
 
 	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+	<!-- Style files -->
 	<link rel="stylesheet" href="style/style.css">
 	<link rel="stylesheet" href="style/bootstrap-social.css">
 
+	<!-- Your configure FIREBASE 
 	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 	<script>
 		// Initialize Firebase
 		var config = {
-			apiKey: "AIzaSyBWKnza749gpUw_5CP8JJupsICbWOARpjA",
-			authDomain: "nysl-web-775e2.firebaseapp.com",
-			databaseURL: "https://nysl-web-775e2.firebaseio.com",
-			projectId: "nysl-web-775e2",
-			storageBucket: "nysl-web-775e2.appspot.com",
-			messagingSenderId: "738803376417"
+			apiKey: "",
+			authDomain: "",
+			databaseURL: "",
+			projectId: "",
+			storageBucket: "",
+			messagingSenderId: ""
 		};
 		firebase.initializeApp(config);
 
-	</script>
+	</script> -->
 
 	<!-- Import and configure the Firebase SDK -->
 	<!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
 	<!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+	<!-- 
 	<script src="/__/firebase/3.9.0/firebase-app.js"></script>
 	<script src="/__/firebase/3.9.0/firebase-auth.js"></script>
 	<script src="/__/firebase/3.9.0/firebase-database.js"></script>
-	<script src="/__/firebase/init.js"></script>
+	<script src="/__/firebase/init.js"></script> -->
 
 </head>
 
 <body>
+
+	<!-- Template Mustache -->
 	<script id="listGameInfo" type="text/html">
 		{{#listGame}}
 		<li class="list-group-item gameInfo__box--item gameInfo__box--item{{idGame}}" data-game="{{idGame}}">
@@ -185,6 +192,7 @@
 		</div>
 	</script>
 
+	<!-- Cuerpo de la paginas -->
 	<div class="container-fluid">
 		<div class="row">
 			<div class="fixed-nav-bar">
@@ -229,7 +237,6 @@
 						<button class="btn nav__login-btn" data-toggle="modal" data-target="#myModal">Log in</button>
 					</div>
 				</div>
-				<!-- <div><a title="login page2" href="login.html"><span></span>Login2</a></div>-->
 
 				<!-- Modal bbdd desconexion -->
 				<div class="modal fade" id="modalDescon">
@@ -334,7 +341,8 @@
 				</div>
 			</div>
 		</div>
-
+		
+		<!-- SPA - body que contiene las paginas de la APP -->
 		<div id="pages">
 
 			<!-- Home page -->
@@ -403,11 +411,9 @@
 			</div>
 			<!-- About page -->
 			<div id="page-about" data-source="about">
-
 				<div class="row fixed-padding">
 					<h2 class="heading--secondary">About NYSL</h2>
 				</div>
-
 				<div class="row margin-big content">
 					<div class="panel-group col-md-10 col-md-offset-1" id="accordionA">
 						<div class="panel panel-default">
@@ -747,7 +753,7 @@
 				</div>
 
 			</div>		
-			<!-- Add comment Chat page -->
+			<!-- Comment Page -->
 			<div id="page-comment" data-source="comment">	
 				<div class="row fixed-padding">
 					<h2 class="heading--secondary">NYSL Comment Game Info</h2>
@@ -761,7 +767,7 @@
 							<div class="panel-body">			
 								<form role="form" action="#" id="message-form">
 									<div class="form-group">
-										<textarea class="form-control" id="new-post-message" placeholder="Post message..."></textarea>
+										<textarea class="form-control" id="new-post-message" placeholder="Comment message..."></textarea>
 									</div>
 									<button type="submit" class="btn btn-default btn-primary btn-block">
 										<span class="glyphicon glyphicon-pencil"></span> Add comment</button>
